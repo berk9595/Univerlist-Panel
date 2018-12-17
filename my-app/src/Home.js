@@ -26,13 +26,20 @@ import ImageDialog from "./ImageDialog";
 import ImageUploader from "react-images-upload";
 
 const styles = theme => ({
+  uniPhotos:{
+    width:'100%',
+    height:320 ,
+    [theme.breakpoints.up("lg")]: {
+      height:250
+    }
+  },
   montserrat:{
     fontFamily:'Montserrat',
   },
   rootUnderline:{
     '&:before':{
       borderBottom:'0'
-    }   
+    }
   },
   addCricle: {
     fontSize: 40
@@ -49,10 +56,10 @@ const styles = theme => ({
     }
   },
   videocardViewLogo: {
-    
-    
+
+
     transitionTimingFunction: ["linear", "important"],
-    
+
     height: 150,
     borderRadius: '50%',
     [theme.breakpoints.down("sm")]: {
@@ -88,7 +95,7 @@ const styles = theme => ({
     }
   },
   bootInput:{
-    fontSize: 14,
+    fontSize: 16,
     color:'#646777'
   },
   Height500:{
@@ -145,11 +152,10 @@ class App extends Component {
     openimg:false,
     openimg_const:false,
     slides : [
-      {id:1,img:'https://picsum.photos/800/300/?random'},
-      
+      <img src='https://picsum.photos/800/300/?random'/>,
     ],
     data: [
-      
+
     ]
   };
   openFileUpload = () => {
@@ -167,6 +173,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    const {classes} =this.props;
     fetch('https://univerlist.com/api/v1/university-detail/yasar-universitesi/', {
       method: 'GET',
       cache: "no-store"
@@ -182,6 +189,18 @@ class App extends Component {
          for(let i=0;i<res.features.length;i++){
             res.features[i].clicked=true;
          }
+         let new_slider = [];
+         for(let i =0;i<res.optional_images.length;i++){
+           new_slider.push(
+             <Grid container style={{marginBottom:15}}   key={res.optional_images[i].pk}>
+             <img src={res.optional_images[i].thumbnail} className={classes.uniPhotos}></img>
+             <Fab color="secondary" aria-label="Add" className={classes.fab} style={{position:'absolute',right:'-2%',top:'-4%',zIndex:3,width:40,height:40}}>
+                     <DeleteIcon  onClick={()=>this.deleteIcon(res.optional_images[i].pk)}/>
+                 </Fab>
+           </Grid>);
+         }
+
+
          this.setState({
           ulScore:res.ul_score,
           uniName:res.name,
@@ -197,7 +216,7 @@ class App extends Component {
            phone:res.phone,
            address:res.address,
            data:res.features,
-           slides:res.optional_images
+           slides:new_slider
          })
 
       })
@@ -300,12 +319,12 @@ class App extends Component {
                   alt=""
                 />
               </Grid>
-            </Grid> 
-            <Grid item  xs style={{paddingLeft:15}}>
-            <Typography style={{color:'rgba(117, 114, 114, 0.87)',fontFamily:'Montserrat',fontSize:30,fontWeight:600}}>{this.state.uniName}</Typography>
-            <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:18}}>ul Puanı:{" "}<b style={{backgroundColor:'#f38484',padding:'5px 10px',color:'white',borderRadius:'25%'}}>{this.state.ulScore}</b></Typography>
             </Grid>
-            <Grid item xs container justify='flex-end'>  
+            <Grid item  xs style={{paddingLeft:23}}>
+            <Typography style={{color:'rgba(117, 114, 114, 0.87)',fontFamily:'Montserrat',fontSize:30,fontWeight:700}}>{this.state.uniName}</Typography>
+            <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:18,fontWeight:700}}>ul Puanı:{" "}<b style={{backgroundColor:'#64bc36',padding:'5px 10px',color:'white',borderRadius:'25%'}}>{this.state.ulScore}</b></Typography>
+            </Grid>
+            <Grid item xs container justify='flex-end'>
             <Button
               variant="contained"
               color="primary"
@@ -314,15 +333,15 @@ class App extends Component {
             >
               KAYDET
             </Button></Grid>
-            
-            
+
+
         </Grid>
-        
-        
-           
+
+
+
           </Zoom>
           <Grid container style={{marginTop:30}}>
-            
+
             </Grid>
 
 <Grid container>
@@ -336,7 +355,7 @@ class App extends Component {
                 minHeight: 200,
                 borderRadius: 5,
                 backgroundColor: "white",
-                
+
                 borderTop:'5px solid rgb(162, 150, 216)'
               }}
             >
@@ -349,7 +368,7 @@ class App extends Component {
                 }}
                 alignItems="center"
               >
-                <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:22}}>Hakkınızda</Typography>
+                <Typography style={{color:'rgb(123, 113, 169)',fontFamily:'Montserrat',fontSize:22,fontWeight:700}}>Hakkınızda</Typography>
               </Grid>
               <Grid
                 item
@@ -365,20 +384,20 @@ class App extends Component {
                   rowsMax={6}
                   rows={6}
                   style={{fontSize:14}}
-                  
+
                     InputProps={{
                       classes: {
                         input: classes.bootInput,
                         underline: classes.rootUnderline,
                       },
                     }}
-                  
+                  onChange={this.handleChange("content")}
                   value={this.state.content}
                   placeholder="Hakkınızda birşey yazmıyor..."
                 />
               </Grid>
             </Grid>
-            
+
 
           <Grid item xs style={{ maxWidth: "5%" }} />
           <Grid
@@ -391,7 +410,7 @@ class App extends Component {
                 minHeight: 200,
                 borderRadius: 5,
                 backgroundColor: "white",
-                
+
                 borderTop:'5px solid rgb(162, 150, 216)'
               }}
             >
@@ -404,18 +423,13 @@ class App extends Component {
                 }}
                 alignItems="center"
               >
-                <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:22}}>Resimleriniz.</Typography>
+                <Typography style={{color:'rgb(123, 113, 169)',fontFamily:'Montserrat',fontSize:22,fontWeight:700}}>Galeri</Typography>
               </Grid>
-              <Carousel slides={slides.map(item=>(<Grid container style={{marginBottom:15}}   key={item.pk}>
-              <img src={item.thumbnail} style={{width:'100%',height:320}}></img>
-              <Fab color="secondary" aria-label="Add" className={classes.fab} style={{position:'absolute',right:'-2%',top:'-4%',zIndex:3,width:40,height:40}}>
-                        <DeleteIcon  onClick={()=>this.deleteIcon(item.pk)}/>
-                    </Fab>
-              </Grid>))}></Carousel>
-              
+              <Carousel slides={slides}></Carousel>
+
             </Grid>
-            
-         
+
+
 </Grid>
            <Zoom in={true} style={{ transitionDelay: 750 }}>
             <Grid item container>
@@ -440,7 +454,7 @@ class App extends Component {
                   }}
                   alignItems="center"
                 >
-                  <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:22}}>Genel Bakış</Typography>
+                  <Typography style={{color:'rgb(123, 113, 169)',fontFamily:'Montserrat',fontSize:22,fontWeight:700}}>Genel Bakış</Typography>
                 </Grid>
                 <Grid container>
                   <Grid item xs container>
@@ -613,7 +627,7 @@ class App extends Component {
                   }}
                   alignItems="center"
                 >
-                  <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:22}}>Üniversite Bilgileri</Typography>
+                  <Typography style={{color:'rgb(123, 113, 169)',fontFamily:'Montserrat',fontSize:22,fontWeight:700}}>Üniversite Bilgileri</Typography>
                 </Grid>
                 <Grid container>
                   <Grid item xs container>
@@ -710,7 +724,7 @@ class App extends Component {
                           //root: classes.bootstrapRoot,
                         },
                       }}
-                      
+
                     />
                   </Grid>
                 </Grid>
@@ -794,7 +808,7 @@ class App extends Component {
                 alignItems="center"
                 justify="space-between"
               >
-                <Typography style={{color:'rgba(175, 170, 170, 0.87)',fontFamily:'Montserrat',fontSize:22}}>Neler var?</Typography>
+                <Typography style={{color:'rgb(123, 113, 169)',fontFamily:'Montserrat',fontSize:22,fontWeight:700}}>Neler var?</Typography>
                 <IconButton
                   className={classnames(classes.expand, {
                     [classes.expandOpen]: this.state.expanded
@@ -819,7 +833,7 @@ class App extends Component {
               </Collapse>
             </Grid>
           </Zoom>
-        
+
          <Grid item container style={{ marginBottom: 50 }}>
             <Grid
               item

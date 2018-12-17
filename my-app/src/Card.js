@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Typography } from "@material-ui/core";
@@ -28,7 +29,7 @@ class App extends Component {
   render() {
     const { classes, datax, index } = this.props;
     return (
-      <Grid item md={1} container style={{ padding: "0 15px 10px " }}>
+      <Grid item xl={1} lg={1} container style={{ padding: "0 3px 10px " }}>
         <Grid
           container
           direction="column"
@@ -38,8 +39,8 @@ class App extends Component {
             borderBottom:
               datax.clicked === false
                 ? null
-                : "10px solid #35d0ba",
-                
+                : "10px solid rgb(123, 113, 169)",
+
             borderRadius: 5,
             padding: "10px 0",
             cursor: "pointer",
@@ -50,15 +51,15 @@ class App extends Component {
           onClick={() => this.props.onClickHandle(datax, index)}
         >
           <Grid item>
-            <Avatar
+            <CheckCircleIcon
               style={{
                 width:60,height:60,
                 margin: "0px 0 10px",
-                backgroundColor: datax.clicked ===true ? ("#35d0ba"):("#bdbdbd")
+                backgroundColor: datax.clicked ===true ? ("rgb(123, 113, 169)"):("#bdbdbd")
               }}
             >
-              {datax.name.charAt(0)}
-            </Avatar>
+
+            </CheckCircleIcon>
           </Grid>
           <Grid item style={{ padding: "0 9px" }}>
             <Typography

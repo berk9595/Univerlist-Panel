@@ -20,6 +20,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import PopUp from "./Popup";
 import ExitToApp from '@material-ui/icons/ExitToApp'
 import Home from './Home'
 
@@ -134,7 +135,7 @@ class MiniDrawer extends React.Component {
               UniverList
             </Typography>
             <div style={{flexGrow:0.95}}></div>
-            <Avatar style={{width:45,height:45}}>Y</Avatar>
+            <PopUp />
            {/*  <Typography variant='caption' className={classes.montserrat} style={{marginLeft:5,marginRight:3}}>User,</Typography>
             <ExitToApp style={{marginRight:20,color:'rgba(0, 0, 0, 0.54)',cursor:'pointer'}}/>*/}
           </Toolbar>
@@ -170,15 +171,15 @@ class MiniDrawer extends React.Component {
                 <ListItemIcon> <MailIcon style={{color:'#b5b1dd'}}/></ListItemIcon>
                 <ListItemText ><Typography style={{color:'#b5b1dd'}} className={classes.montserrat}>Analiz</Typography></ListItemText>
               </ListItem>
-            
+
           </List>
-          
-          
+
+
         </Drawer>
         <main className={classes.content}>
-          
+
           <Home/>
-          
+
         </main>
       </div>
     );
