@@ -80,14 +80,17 @@ class App extends Component {
       <Grid
         container
         style={{
-          height: "70vh"
+          height: "100vh"
         }}
-        justify="center"
-        alignItems="center"
+
       >
-        <Grid
+      <Grid item md={5} container style={{backgroundColor:'#7b68ee',padding:20}}>     
+      <img style={{height:40}} src="https://univerlist.com/media/cache/5e/42/5e4297577c316d35a9ec83d7529562d9.png"></img>
+      </Grid>
+      <Grid item md={6} container justify='center' alignItems='center'>
+      <Grid
           item
-          md={3}
+          md={6}
           container
           direction="column"
           justify="center"
@@ -205,7 +208,9 @@ class App extends Component {
             </Button>
           </Grid>
         </Grid>
+      
       </Grid>
+       </Grid>
     );
   }
 }
